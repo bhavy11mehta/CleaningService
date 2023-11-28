@@ -1,5 +1,3 @@
-
-
 import Foundation
 struct List : Codable {
     let _id : String?
