@@ -113,6 +113,7 @@ extension CustomizeController: UITableViewDelegate, UITableViewDataSource {
                 if index == indexPath.row {
                     sectionIndex = index
                     // Deselect the currently selected option
+                    bhkAllowance = 0
                     customizeViewModel.arrAppartmentModification.parentAppartment[index].is_default_selected = true
                     manageQty()
                 } else {
