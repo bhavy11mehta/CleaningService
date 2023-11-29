@@ -33,18 +33,6 @@ class CustomizeController: UIViewController {
         qtyView.layer.borderColor = UIColor.systemMint.cgColor
         manageQty()
     }
-    @IBAction func btnMinusClick(_ sender: UIButton) {
-//        if qtyBhk > 1 {
-//            qtyBhk -= 1
-//        }
-//        manageQty()
-//        lblQty.text = String(qtyBhk)
-    }
-    @IBAction func btnPlusClick(_ sender: UIButton) {
-//        qtyBhk += 1
-//       manageQty()
-//        lblQty.text = String(qtyBhk)
-    }
     func resetData() {
         let appartment =  customizeViewModel.dataModification()
         lblHeader.text = appartment?.name?.first
