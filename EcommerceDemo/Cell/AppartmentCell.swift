@@ -9,11 +9,16 @@ import UIKit
 
 class AppartmentCell: UITableViewCell {
     
+    @IBOutlet weak var lblQty: UILabel!
+    @IBOutlet weak var btnPlus: UIButton!
+    @IBOutlet weak var btnMinus: UIButton!
+    @IBOutlet weak var lblNameTrailing: NSLayoutConstraint!
     @IBOutlet weak var qtyView: UIStackView!
     @IBOutlet weak var lblPrice: UILabel!
     @IBOutlet weak var lblName: UILabel!
-
     @IBOutlet weak var imgCheckBox: UIImageView!
+    var actionMinusBlock: (() -> Void)?
+    var actionPlusBlock: (() -> Void)?
     override func awakeFromNib() {
         super.awakeFromNib()
         qtyView.layer.cornerRadius = 20
@@ -26,6 +31,12 @@ class AppartmentCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    @IBAction func btnMinusClick(_ sender: UIButton) {
+        actionMinusBlock?()
+    }
+    @IBAction func btnPlusClick(_ sender: UIButton) {
+        actionPlusBlock?()
     }
 
 }

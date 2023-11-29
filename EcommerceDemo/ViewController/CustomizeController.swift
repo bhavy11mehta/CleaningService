@@ -14,6 +14,7 @@ class CustomizeController: UIViewController {
     @IBOutlet weak var qtyView: UIView!
     @IBOutlet weak var btnAddCart: UIButton!
     @IBOutlet weak var tblBhk: UITableView!
+    @IBOutlet weak var NameTrailing: NSLayoutConstraint!
     var customizeViewModel = CustomizeViewModel()
    
     var sectionIndex : Int = 0
@@ -24,9 +25,7 @@ class CustomizeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let appartment =  customizeViewModel.dataModification()
-        lblHeader.text = appartment?.name?.first
-        strSection = appartment?.specifications?.first?.name?.first
+        resetData()
         btnAddCart.layer.cornerRadius = 20
         qtyView.layer.cornerRadius = 20
         qtyView.layer.masksToBounds = true
@@ -34,17 +33,22 @@ class CustomizeController: UIViewController {
         qtyView.layer.borderColor = UIColor.systemMint.cgColor
         manageQty()
     }
-    @IBAction func btnMinusClick(_ sender: Any) {
-        if qtyBhk > 1 {
-            qtyBhk -= 1
-        }
-        manageQty()
-        lblQty.text = String(qtyBhk)
+    @IBAction func btnMinusClick(_ sender: UIButton) {
+//        if qtyBhk > 1 {
+//            qtyBhk -= 1
+//        }
+//        manageQty()
+//        lblQty.text = String(qtyBhk)
     }
-    @IBAction func btnPlusClick(_ sender: Any) {
-        qtyBhk += 1
-       manageQty()
-        lblQty.text = String(qtyBhk)
+    @IBAction func btnPlusClick(_ sender: UIButton) {
+//        qtyBhk += 1
+//       manageQty()
+//        lblQty.text = String(qtyBhk)
+    }
+    func resetData() {
+        let appartment =  customizeViewModel.dataModification()
+        lblHeader.text = appartment?.name?.first
+        strSection = appartment?.specifications?.first?.name?.first
     }
     func manageQty() {
         cartValue = qtyBhk * (customizeViewModel.arrAppartmentModification.parentAppartment[sectionIndex].price ?? 0)
@@ -74,6 +78,7 @@ extension CustomizeController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "BhkCell", for: indexPath) as! BhkCell
             cell.selectionStyle = .none
+           
             let bhk = customizeViewModel.arrAppartmentModification.parentAppartment[indexPath.row]
             cell.lblPrice.text = "\u{20B9} \(String(bhk.price ?? 0))"
             cell.lblName.text = bhk.name?.first
@@ -87,13 +92,31 @@ extension CustomizeController: UITableViewDelegate, UITableViewDataSource {
         else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AppartmentCell", for: indexPath) as! AppartmentCell
             cell.selectionStyle = .none
+            cell.actionMinusBlock = {
+                if (self.customizeViewModel.arrAppartmentModification.parentAppartment[self.sectionIndex].specifications[indexPath.section-1].list?[indexPath.row].qty ?? 0) > 1 {
+                    self.customizeViewModel.arrAppartmentModification.parentAppartment[self.sectionIndex].specifications[indexPath.section-1].list?[indexPath.row].qty! -= 1
+                    let allowance =  (self.customizeViewModel.arrAppartmentModification.parentAppartment[self.sectionIndex].specifications[indexPath.section-1].list?[indexPath.row].price ?? 0)
+                    self.bhkAllowance = self.bhkAllowance - allowance
+                    self.manageQty()
+                    self.tblBhk.reloadData()
+                }
+            }
+            cell.actionPlusBlock = {
+                self.customizeViewModel.arrAppartmentModification.parentAppartment[self.sectionIndex].specifications[indexPath.section-1].list?[indexPath.row].qty! += 1
+                let allowance =  (self.customizeViewModel.arrAppartmentModification.parentAppartment[self.sectionIndex].specifications[indexPath.section-1].list?[indexPath.row].price ?? 0)
+                self.bhkAllowance = self.bhkAllowance + allowance
+                self.manageQty()
+                self.tblBhk.reloadData()
+            }
             let appartment = customizeViewModel.arrAppartmentModification.parentAppartment[sectionIndex].specifications[indexPath.section-1].list?[indexPath.row]
             if appartment?.is_default_selected ?? true {
                 cell.imgCheckBox.image = (UIImage(named:"CheckedBox"))
                 cell.qtyView.isHidden = false
+                cell.lblNameTrailing.constant = 100
             } else {
                 cell.imgCheckBox.image = (UIImage(systemName: "square"))
                 cell.qtyView.isHidden = true
+                cell.lblNameTrailing.constant = 44
             }
             if appartment?.price != 0 {
                 cell.lblPrice.text = "\u{20B9} \(String(appartment?.price ?? 0))"
@@ -102,7 +125,7 @@ extension CustomizeController: UITableViewDelegate, UITableViewDataSource {
                 cell.qtyView.isHidden = true
             }
             cell.lblName.text = appartment?.name?.first
-
+            cell.lblQty.text = String(self.customizeViewModel.arrAppartmentModification.parentAppartment[self.sectionIndex].specifications[indexPath.section-1].list?[indexPath.row].qty ?? 0)
           
             return cell
         }
@@ -113,9 +136,14 @@ extension CustomizeController: UITableViewDelegate, UITableViewDataSource {
                 if index == indexPath.row {
                     sectionIndex = index
                     // Deselect the currently selected option
+                   
                     bhkAllowance = 0
-                    customizeViewModel.arrAppartmentModification.parentAppartment[index].is_default_selected = true
+                    resetData()
+                    customizeViewModel.arrAppartment[0].is_default_selected = false
+                    customizeViewModel.arrAppartmentModification.parentAppartment[0].is_default_selected = false
                     manageQty()
+                    customizeViewModel.arrAppartmentModification.parentAppartment[index].is_default_selected = true
+                
                 } else {
                     // Ensure that all other options are deselected
                     customizeViewModel.arrAppartmentModification.parentAppartment[index].is_default_selected = false
@@ -125,8 +153,9 @@ extension CustomizeController: UITableViewDelegate, UITableViewDataSource {
         } else {
             if customizeViewModel.arrAppartmentModification.parentAppartment[sectionIndex].specifications[indexPath.section-1].list?[indexPath.row].is_default_selected ?? true {
                 customizeViewModel.arrAppartmentModification.parentAppartment[sectionIndex].specifications[indexPath.section-1].list?[indexPath.row].is_default_selected = false
+                let allowance = (customizeViewModel.arrAppartmentModification.parentAppartment[sectionIndex].specifications[indexPath.section-1].list?[indexPath.row].qty ?? 0) * (customizeViewModel.arrAppartmentModification.parentAppartment[sectionIndex].specifications[indexPath.section-1].list?[indexPath.row].price ?? 0)
+                bhkAllowance = bhkAllowance - allowance
                 customizeViewModel.arrAppartmentModification.parentAppartment[sectionIndex].specifications[indexPath.section-1].list?[indexPath.row].qty = 0
-                bhkAllowance = bhkAllowance - (customizeViewModel.arrAppartmentModification.parentAppartment[sectionIndex].specifications[indexPath.section-1].list?[indexPath.row].price ?? 0)
                 manageQty()
               
             } else {

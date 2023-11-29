@@ -13,6 +13,8 @@ class CustomizeViewModel {
     var arrAppartment = [List]()
 
     func dataModification() -> AppartmentFeature? {
+        arrAppartment.removeAll()
+        arrAppartmentModification.parentAppartment.removeAll()
         let appartmentFeature = parseUsersFromJSONFile()
         arrAppartment = appartmentFeature.map {($0.specifications?[0].list)!}!
         for i in 0..<arrAppartment.count {

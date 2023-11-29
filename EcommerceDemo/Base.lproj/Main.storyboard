@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="MTb-sY-y91">
-                                <rect key="frame" x="0.0" y="0.0" width="430" height="828"/>
+                                <rect key="frame" x="0.0" y="60" width="430" height="768"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="It1-XN-LNe">
                                     <rect key="frame" x="0.0" y="0.0" width="430" height="300"/>
@@ -138,7 +138,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="FLF-Cs-5rZ">
-                                                    <rect key="frame" x="323.66666666666669" y="1" width="90" height="56.666666666666664"/>
+                                                    <rect key="frame" x="275" y="1" width="90" height="56.666666666666664"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d9x-jA-cS1">
                                                             <rect key="frame" x="0.0" y="0.0" width="24" height="56.666666666666664"/>
@@ -150,7 +150,7 @@
                                                                 <color key="baseForegroundColor" red="0.088591910900000001" green="0.71989339590000001" blue="0.72369974849999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </buttonConfiguration>
                                                             <connections>
-                                                                <action selector="btnMinusClick:" destination="w36-PX-Rhe" eventType="touchUpInside" id="khO-h1-eLf"/>
+                                                                <action selector="btnMinusClick:" destination="t0E-Ph-rO2" eventType="touchUpInside" id="TOH-ig-jCu"/>
                                                             </connections>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nZm-t3-BPx">
@@ -191,7 +191,7 @@
                                                                 <color key="baseForegroundColor" red="0.088591910900000001" green="0.71989339590000001" blue="0.72369974849999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </buttonConfiguration>
                                                             <connections>
-                                                                <action selector="btnPlusClick:" destination="w36-PX-Rhe" eventType="touchUpInside" id="xu4-Zw-qE1"/>
+                                                                <action selector="btnPlusClick:" destination="t0E-Ph-rO2" eventType="touchUpInside" id="VvK-XV-igb"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -210,7 +210,7 @@
                                                 <constraint firstItem="BiA-ap-e1R" firstAttribute="top" secondItem="Nw9-ho-8nQ" secondAttribute="top" id="M44-VI-RqF"/>
                                                 <constraint firstAttribute="bottom" secondItem="oLL-0N-Kqw" secondAttribute="bottom" constant="8" id="Xvf-dS-MdP"/>
                                                 <constraint firstItem="oLL-0N-Kqw" firstAttribute="top" secondItem="Nw9-ho-8nQ" secondAttribute="top" constant="5" id="ZcM-It-7NG"/>
-                                                <constraint firstAttribute="trailing" secondItem="FLF-Cs-5rZ" secondAttribute="trailing" constant="16.329999999999998" id="bo0-7D-CPY"/>
+                                                <constraint firstAttribute="trailing" secondItem="FLF-Cs-5rZ" secondAttribute="trailing" constant="65" id="bo0-7D-CPY"/>
                                                 <constraint firstAttribute="trailing" secondItem="oLL-0N-Kqw" secondAttribute="trailing" constant="16" id="k4q-hm-luv"/>
                                                 <constraint firstItem="FLF-Cs-5rZ" firstAttribute="top" secondItem="Nw9-ho-8nQ" secondAttribute="top" constant="1" id="mMp-oK-vs7"/>
                                                 <constraint firstAttribute="bottom" secondItem="KSk-mw-u1P" secondAttribute="bottom" constant="7.3300000000000001" id="mYD-OF-N5d"/>
@@ -219,9 +219,13 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="btnMinus" destination="d9x-jA-cS1" id="bo7-85-A8A"/>
+                                            <outlet property="btnPlus" destination="xrG-6t-qaY" id="PNH-qY-vr6"/>
                                             <outlet property="imgCheckBox" destination="KSk-mw-u1P" id="ukr-tB-hPX"/>
                                             <outlet property="lblName" destination="BiA-ap-e1R" id="7p7-ft-LK7"/>
+                                            <outlet property="lblNameTrailing" destination="2Ba-r6-MVg" id="HyE-9b-nT3"/>
                                             <outlet property="lblPrice" destination="oLL-0N-Kqw" id="Fso-5i-2fk"/>
+                                            <outlet property="lblQty" destination="1Rm-sW-HTZ" id="fay-2A-q4s"/>
                                             <outlet property="qtyView" destination="FLF-Cs-5rZ" id="FlE-0l-ZuO"/>
                                         </connections>
                                     </tableViewCell>
@@ -246,9 +250,6 @@
                                                 <buttonConfiguration key="configuration" style="plain" title="-">
                                                     <color key="baseForegroundColor" red="0.088591910900000001" green="0.71989339590000001" blue="0.72369974849999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </buttonConfiguration>
-                                                <connections>
-                                                    <action selector="btnMinusClick:" destination="w36-PX-Rhe" eventType="touchUpInside" id="KgQ-QI-QWr"/>
-                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lzv-Le-WBK">
                                                 <rect key="frame" x="29" y="0.0" width="1" height="40"/>
@@ -287,9 +288,6 @@
                                                 <buttonConfiguration key="configuration" style="plain" title="+">
                                                     <color key="baseForegroundColor" red="0.088591910900000001" green="0.71989339590000001" blue="0.72369974849999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </buttonConfiguration>
-                                                <connections>
-                                                    <action selector="btnPlusClick:" destination="w36-PX-Rhe" eventType="touchUpInside" id="Naa-Kl-fHT"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -332,16 +330,15 @@
                             <constraint firstItem="6Sm-EA-Ztg" firstAttribute="trailing" secondItem="Pwa-q9-OL0" secondAttribute="trailing" id="3hF-PP-H7I"/>
                             <constraint firstItem="MTb-sY-y91" firstAttribute="trailing" secondItem="Pwa-q9-OL0" secondAttribute="trailing" id="3mN-q1-Ia5"/>
                             <constraint firstItem="6Sm-EA-Ztg" firstAttribute="bottom" secondItem="Pwa-q9-OL0" secondAttribute="bottom" id="IEg-bP-fym"/>
+                            <constraint firstItem="MTb-sY-y91" firstAttribute="top" secondItem="Pwa-q9-OL0" secondAttribute="top" constant="1" id="JUi-8c-xoV"/>
                             <constraint firstItem="6Sm-EA-Ztg" firstAttribute="leading" secondItem="Pwa-q9-OL0" secondAttribute="leading" id="NUL-zu-eOC"/>
                             <constraint firstItem="MTb-sY-y91" firstAttribute="leading" secondItem="Pwa-q9-OL0" secondAttribute="leading" id="uEx-64-6Bt"/>
                             <constraint firstItem="Pwa-q9-OL0" firstAttribute="bottom" secondItem="MTb-sY-y91" secondAttribute="bottom" constant="70" id="vkq-Sb-PKJ"/>
-                            <constraint firstItem="MTb-sY-y91" firstAttribute="top" secondItem="yab-yJ-pN3" secondAttribute="top" id="ysi-X8-bMS"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="btnAddCart" destination="dvB-NC-yhs" id="56b-va-xys"/>
                         <outlet property="lblHeader" destination="8cK-sI-mG7" id="heA-Vb-aTA"/>
-                        <outlet property="lblQty" destination="l61-tB-wlo" id="ejr-fU-qGU"/>
                         <outlet property="qtyView" destination="EbJ-2D-XGi" id="TkP-pa-Qv2"/>
                         <outlet property="tblBhk" destination="MTb-sY-y91" id="ZXX-bz-zpM"/>
                     </connections>
